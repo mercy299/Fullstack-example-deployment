@@ -16,9 +16,11 @@ const mongoose = require('mongoose');
 //Import de path permettant config URL pour gestion des fichiers users (images ajoutées)
 const path = require('path');
 
+// variable d'environnement pour masquer code de connection à mongoDB
+require('dotenv').config();
 
 mongoose.connect(
-  'mongodb+srv://fullstackApp-course-P6:2606L1308m@cluster0.fkmcx.mongodb.net/<dbname>?retryWrites=true&w=majority', 
+  process.env.PASSWORD, 
   {useNewUrlParser : true ,  
   useUnifiedTopology: true}
 )
