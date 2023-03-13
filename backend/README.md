@@ -1,123 +1,121 @@
 # Mise en place de server.js
 
-Il s'agit du server Node.
+This is the Node server.
 
-Node est le runtime qui permet d'écrire toutes nos tâches côté serveur, en JavaScript, telles que la logique métier, la persistance des données et la sécurité. Node ajoute également des fonctionnalités que le JavaScript du navigateur standard ne possède pas, comme par exemple l'accès au système de fichiers local
+Node is the runtime that allows us to write all of our server-side tasks in JavaScript, such as business logic, data persistence and security. Node also adds features that the standard browser JavaScript does not have, such as access to the local file system
 
 
-INITIALISATION DU PROJET OU DEMARRAGE DU SERVER NODE
+PROJECT INITIALIZATION OR SERVER NODE STARTUP
 
-Ce processus génère un fichier package.json vierge, dans lequel seront enregistrés les détails de tous les packages npm que nous utiliserons pour ce projet
+This process generates a blank package.json file, in which the details of all the npm packages we will use for this project will be stored
 
-=> Dans sous dossier "backend" npm init
-=> entrée 'till point d'entrée et nommer "server.js" (à créer then)
-=> ds "backend" git init puis créer un fichier ".gitignore"
-=> Créer un fichier server.js dans "backend"
-
-Code à mettre dans server.js
+=> In the "backend" folder npm init
+=> enter 'till entry point and name it "server.js" (create then)
+=> ds "backend" git init then create a ".gitignore" file
+=> create a server.js file in "backend
+Code to put in server.js
 
 a => const http = require('http');
 
 b => const server = http.createServer(
     c => (req, res) => 
     {
-     d => res.end('Voilà la réponse du serveur !');
+     d => res.end('Here is the server response!');
     }
 );
 
 e => server.listen(process.env.PORT || 3000);
 
-a)Ici, vous importez le package HTTP natif de Node. 
+a)Here you import the native HTTP package from Node. 
 
-b)Vous l'utilisez pour créer un serveur, en passant une fonction qui sera exécutée à chaque appel effectué vers ce serveur. 
+b)You use it to create a server, passing a function that will be executed on each call to this server. 
 
-c)Cette fonction reçoit les objets request et response en tant qu'arguments. 
+c) This function receives the request and response objects as arguments. 
 
-d)Dans cet exemple, vous utilisez la méthode end de la réponse pour renvoyer une réponse de type string à l'appelant.
+d)In this example, you use the end method of the response to return a string response to the caller.
 
-e)Dans la dernière ligne, vous configurez le serveur pour qu'il écoute :
+e) In the last line, you configure the server to listen for :
 
-1) soit la variable d'environnement du port grâce à process.env.PORT : si la plateforme de déploiement propose un port par défaut, c'est celui-ci qu'on écoutera ;
+1) either the environment variable of the port thanks to process.env.PORT : if the deployment platform proposes a default port, we will listen to it;
 
-2) soit le port 3000, ce qui nous servira dans le cas de notre plateforme de développement.
+2) or the port 3000, which will be used in the case of our development platform.
 
 https://openclassrooms.com/fr/courses/6390246-passez-au-full-stack-avec-node-js-express-et-mongodb/6466231-demarrez-votre-serveur-node#/id/r-6466220
 
 
 
-# Installation de nodemon
-
-Lignes de commande
-Dans backend => cd backend
+# Installing nodemon
+Command lines
+In backend => cd backend
 npm install -g nodemon
 
-Désormais, au lieu d'utiliser node server pour démarrer votre serveur, vous pouvez utiliser nodemon server . Il surveillera les modifications de vos fichiers et redémarrera le serveur lorsqu'il aura besoin d'être mis à jour
+Now, instead of using node server to start your server, you can use nodemon server. It will monitor your files for changes and restart the server when it needs to be updated
 
-# Mise en place de app.js
+# Setting up app.js
 
-Express est, pour faire court, un framework reposant sur Node qui facilite la création et la gestion des serveurs Node.
+Express is, in short, a Node-based framework that makes it easy to create and manage Node servers.
 
-framework Express simplifie les tâches, en nous permettant de déployer nos API beaucoup plus rapidement. Installons-le maintenant.
+framework Express simplifies tasks, allowing us to deploy our APIs much faster. Let's install it now.
 
-I/INSTALLATION EXPRESS
+I/EXPRESS INSTALLATION
 
-1) Lignes de commande:
+1) Command lines:
 
 cd backend
 npm install --save express
 
-2) CREER FICHIER app.js avec code pour y placer Express
+2) CREATE FILE app.js with code to put Express
  
-// Import d'express
+// Import express
 const express = require('express');
 
-// appel de la méthode express
+// call the express method
 const app = express();
 
-// export de l'application express pour pouvoir le use dans server.js
+// export the express application to use it in server.js
 module.exports = app;
 
 
-II/ Exécution EXPRESS (app.js) sur serveur Node (server.js)
+II/ Running EXPRESS (app.js) on Node server (server.js)
 
-Revenir sur server.js et le modifier comme suit:
+Go back to server.js and modify it as follows:
 
 const http = require('http');
 
-a => const app = require('./app');    => Ajout de cette ligne import de app.js ds server.js
+a => const app = require('./app'); => Add this line import from app.js ds server.js
 
 app.set('port', process.env.PORT || 3000);
 
-b => const server = http.createServer(app); => Fonction createServer prend now comme argument app
+b => const server = http.createServer(app); => Function createServer takes now as argument app
 
 server.listen(process.env.PORT || 3000);
 
-Avec ce code on aura une erreur "404 PAGE NOTE FOUND CAN NOT GET"
-Il faut alors configurer une réponse dans notre application app.js en le modifiant 2) devient
+With this code we will get an error "404 PAGE NOTE FOUND CAN NOT GET".
+Then we need to configure a response in our app.js application by modifying it 2) becomes
 
 const express = require('express');
 
 const app = express();
 
-code ajouté
+added code
 app.use((req, res) => 
  {
-    res.json({ message: 'Votre requête a bien été reçue !' }); 
+    res.json({ message: 'Your request has been received!' }); 
  }
 );
 
 module.exports = app;
 
-app.use permet de générer une réponse e, json mais on peut customiser davantage nos réponses avec les middlewares
+app.use allows to generate an e, json response but we can customize more our responses with the middlewares
 
 
-# Ajout de fonctionnalités avec des fonctions ou middleware
+# Adding functionality with functions or middleware
 
-Une application Express est fondamentalement une série de fonctions appelées middleware. Chaque élément de middleware reçoit les objets request et response , peut les lire, les analyser et les manipuler, le cas échéant. Le middleware Express reçoit également la méthode next , qui permet à chaque middleware de passer l'exécution au middleware suivant.
+An Express application is basically a series of functions called middleware. Each middleware element receives the request and response objects, can read them, parse them and manipulate them, if necessary. The Express middleware also receives the next method , which allows each middleware to pass execution to the next middleware.
 
-Syntaxe d'une fonction avec 3 arguments => req , res , next
-next => est appelé apres instruction n pour instruction n+1
-Utilisation de la méthode use()
+Syntax of a function with 3 arguments => req , res , next
+next => is called after instruction n for instruction n+1
+Use of the use() method
 
 app.use((res , req , next) => {
  instruction 1;
@@ -131,78 +129,76 @@ app.use((res , req , next) => {
 
 etc...
 
-Exemples:
-/* 6) Middlewares exemples pour comprendre le principe
+Examples:
+/* 6) Middlewares examples to understand the principle
 
-//affichage console
+//console display
 app.use((req , res , next) => {
-  console.log("requete bien recue !!!");
+  console.log("request well received!!!");
   next();
 })
 
-//Modif statut requete en 201
+//Modify status of request in 201
 app.use((req, res, next ) => {
     res.status(201);
     next();
 })
 
-// 4) renvoie d'une réponse au lieu de 404 de "5)" de server.js
-//route ou fonction pour all kind of request
-//5) ajout du parametre next pour use middlewares
+// 4) returns a response instead of 404 from "5)" of server.js
+//route or function for all kind of request
+//5) added next parameter to use middlewares
 app.use((req , res, next) => {
-    res.json({message: 'Votre requete a été reçue'});
+    res.json({message: 'Your request has been received'});
     next();
 })
 
-// 7) Middleware aprés requete pour signaler la bonne réponse à celle-ci
+// 7) Middleware after request to report the correct answer to it
 app.use((req , res) => {
-    console.log('Réponse envoyée avec succés')
+    console.log('Response sent successfully')
 })*/
 
 
-Cela va nous servir pour créer des routes GET et gérer les erreurs CORS
+This will be used to create GET routes and handle CORS errors
 
-# Créer une route GET dans app.js CREATE
+# Create a GET route in app.js CREATE
+
+I/ Retrieve the items to be sold for the 1+2 part of the front-end
+
+To do this, we need to create a GET route that retrieves the 
+the items to display, via a middleware.
+
+=> MIDDLEWARE .use() method to be used with as 1st argument the "endpoint" or the URL targeted by the application
+or the route.
+In the console the items appear but not in the application.
+
+WHY? server => port 3000 The server and the application do not share the same origin => CORS
+     app => port 4200 Problems between the browser and the server
 
 
-I/ Récupérer les items à vendre pour la partie 1+2 du front
+II/ CORS or Cross Origin Resource Sharing error management
 
-Pour réaliser cela il faut créer une route GET qui récupère les 
-les items à afficher, via un middleware.
+Allows to prevent malicious user/server requests for data protection.
+For our API we want a total access.
 
-=> MIDDLEWARE Méthode .use() à utiliser avec comme 1er argument le "endpoint" ou encore l'URL visé par l'application
-ou encore la route.
-Dans la console les items apparaissent bien mais pas dans l'application.
+=> MIDDLEWARE Adding headers to our requests (to the res. object) with specifications allowing 
+browser the API access
 
-WHY? server => port 3000     Le serveur et l'application ne partagent pas la meme origine => CORS
-     app    => port 4200     Soucis entre le navigateur et le serveur
+=> This middleware is to be put ABOVE the middleware of the GET route
 
+=> General middleware with 3 specifications:
 
-II/ Gestion erreur CORS ou Cross Origin Resource Sharing
+'Access-Control-Allow-Origin' => All routes '*' => 'Access-Control-Allow-Origin' => All routes '*' => 'Access-Control-Allow-Origin
+Access-Control-Allow-Headers' => Header types
+Access-Control-Allow-Methods' => Type of method GET POST etc...
 
-Permet d'empêcher des requêtes malveillantes users/servers pour protection des données.
-Pour notre API on veut un accés total.
-
-=> MIDDLEWARE Rajout de headers au niveau de nos requêtes (à l'objet res.) avec des spécifications permettant 
-navigateur l'acces API
-
-=> Ce middleware est a mettre AU DESSUS du middleware de la route GET
-
-=> Middleware général avec 3 spécifications:
-
-'Access-Control-Allow-Origin'  =>  Toutes les routes '*'
-'Access-Control-Allow-Headers' =>  Types de headers
-'Access-Control-Allow-Methods' =>  Type de method GET POST etc...
-
-Exemple route GET avec éléments statiques
+Example GET route with static elements
 
 app.use('/api/stuff', (req, res, next) => {
-
     const stuff = [
         {
             _id: 'oeihfzeoi',
-            title: 'Mon premier objet',
-            description: 'Les infos de mon premier objet',
+            title: 'My first object',
+            description: 'The info of my first object',
             imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
             price: 4900,
             userId: 'qsomihvqios',
@@ -210,8 +206,8 @@ app.use('/api/stuff', (req, res, next) => {
 
         {
             _id: 'oeihfzeomoihi',
-            title: 'Mon deuxième objet',
-            description: 'Les infos de mon deuxième objet',
+            title: 'My second item',
+            description: 'The info of my second object',
             imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
             price: 2900,
             userId: 'qsomihvqios',
@@ -221,19 +217,19 @@ app.use('/api/stuff', (req, res, next) => {
 
 });
 
-# Créer une route POST READ
+# Create a POST READ route
 
-Exemple simple
+Simple example
 
-//11-Middleware pour POST sur formulaire "ajouter un item"
+//11-Middleware for POST on "add an item" form
 /*app.post('/api/stuff' , (req , res , next) => {
     console.log(req.body);
     res.status(201).json ({
-     message: 'objet créè'
+     message: 'object created
    });
 });*/
 
-# Dépendances du projet dans package.json --save et leurs utilisations
+# Project dependencies in package.json --save and their uses
 
 "dependencies": {
     "body-parser": "^1.19.0",

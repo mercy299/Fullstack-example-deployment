@@ -5,13 +5,13 @@
       <label for="title">Titre</label>
       <input type="text" placeholder="Que vendez-vous ?" id="title" formControlName="title" class="form-control">
     </div>
-    <button class="btn btn-success" type="button" (click)="filePicker.click()">Ajouter image</button>
+    <button class="btn btn-success" type="button" (click)="filePicker.click()">Add image</button>
     <input type="file" #filePicker (change)="onImagePick($event)">
     <div class="image-preview" *ngIf="imagePreview">
       <img [src]="imagePreview" alt="">
     </div>
     <div class="form-group">
-      <label for="price">Prix (in €)</label>
+      <label for="price">Price (in €)</label>
       <input type="number" id="price" class="form-control" formControlName="price" min="0">
     </div>
     <div class="form-group">
@@ -23,7 +23,7 @@
                 formControlName="description"
                 placeholder="Décrivez votre objet (type, qualité, etc.)"></textarea>
     </div>
-    <button class="btn btn-primary" (click)="onSubmit()" [disabled]="thingForm.invalid">Valider</button>
+    <button class="btn btn-primary" (click)="onSubmit()" [disabled]="thingForm.invalid">Validate</button>
     <p class="alert-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
   </form>
 </div>

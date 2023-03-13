@@ -19,7 +19,7 @@
                 placeholder="Décrivez votre objet (type, qualité, etc.)"></textarea>
     </div>
     <div class="form-group">
-      <label for="imageUrl">URL de l'image</label>
+      <label for="imageUrl">Image URL</label>
       <input type="text" placeholder="http://..." id="imageUrl" formControlName="imageUrl" class="form-control">
     </div>
     <button class="btn btn-primary" (click)="onSubmit()" [disabled]="thingForm.invalid">Valider</button>
